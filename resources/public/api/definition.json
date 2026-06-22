@@ -1,0 +1,17 @@
+{
+  "api": {
+    "name": "Digital Contact",
+    "description": "The Digital Contact API allows clients to retrieve information about a user's secure messages and their preferences for paperless communication.",
+    "context": "misc/digital-contact-api",
+    "versions": [
+      {
+        "version": "1.0",
+        "status": "BETA",
+        "endpointsEnabled": true,
+        "access": {
+          "type": "PRIVATE"
+        }
+      }
+    ]
+  }
+}

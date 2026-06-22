@@ -1,0 +1,165 @@
+openapi: "3.0.3"
+
+info:
+  title: Digital Contact API
+  version: "1.0.0"
+  description: |
+    # Support
+
+    - Raise non-technical or platform-related issues with the [Software Development Support Team (SDST)](https://developer.service.hmrc.gov.uk/developer/support).
+    - Raise technical issues on the [digital-contact-api](https://github.com/hmrc/digital-contact-api/issues) page.
+
+    # Changelog
+
+    You can find the changelog on the [digital-contact-api wiki](https://github.com/hmrc/digital-contact-api/wiki) page.
+
+servers:
+  - url: https://test-api.service.hmrc.gov.uk/misc/digital-contact-api
+    description: Sandbox
+  - url: https://api.service.hmrc.gov.uk/misc/digital-contact-api
+    description: Production
+
+components:
+  securitySchemes:
+    userRestricted:
+      type: oauth2
+      description: |
+        HMRC supports OAuth 2.0 for authenticating user-restricted API requests.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.service.hmrc.gov.uk/oauth/authorize
+          tokenUrl: https://api.service.hmrc.gov.uk/oauth/token
+          scopes:
+            read:digital-contact-api: Grants access to digital contact endpoints
+
+  parameters:
+    taxIdentifiersParam:
+      name: taxIdentifiers
+      in: query
+      description: |
+        filter to specific tax identifiers.
+      required: false
+      schema:
+        type: string
+        description: |
+          filter by taxIdentifier.
+        example: nino
+    regimesParam:
+      name: regimes
+      in: query
+      description: |
+        filter to specific tax identifiers.
+      required: false
+      schema:
+        type: string
+        description: |
+          filter by regimes.
+        example: paye
+    returnUrlParam:
+      name: returnUrl
+      in: query
+      description: |
+        An encoded URL used to redirect back to the originating application after completing the preferences journey.
+      required: true
+      schema:
+        type: string
+        description: |
+          filter The return url
+        example: MAxGz4ddvlu94xTumMrbY6U0JEKxTW8xAK6Xu9Zw0D0LI3zHkmxOiq4O1uOCzLFq
+    returnLinkTextParam:
+      name: returnLinkText
+      in: query
+      description: |
+        An encoded label to be displayed on a button, which, when clicked, redirects the user to the returnUrl specified.
+      required: true
+      schema:
+        type: string
+        description: |
+          filter The return link text
+        example: r1leLVKm3dEgPZKMdrtoxQ%3D%3D
+
+paths:
+  /messages/count:
+    get:
+      parameters:
+        - $ref: "#/components/parameters/taxIdentifiersParam"
+        - $ref: "#/components/parameters/regimesParam"
+      summary: Returns secure message count
+      description: |
+        An endpoint that returns the total and unread counts of the secure messages for a user.
+      responses:
+        '200':
+          description: Message count successfully returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      unread:
+                        type: integer
+              example:
+                count:
+                  total: 4
+                  unread: 1
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - userRestricted:
+            - read:digital-contact-api
+
+  /paperless/preferences:
+    get:
+      parameters:
+        - $ref: "#/components/parameters/returnUrlParam"
+        - $ref: "#/components/parameters/returnLinkTextParam"
+      summary: Returns user preferences
+      description: |
+        An endpoint that returns the user’s digital communication preferences.
+      responses:
+        '200':
+          description: User preferences returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  digital:
+                    type: Boolean
+                  category:
+                    type: String
+                  redirectUrl:
+                    type: String
+              example:
+                  digital: false
+                  category: NewCustomer
+                  redirectUrl: /paperless/choose/56?returnUrl=MAxGz4ddvlu94xTumMrbY6U0JEKxTW8xAK6Xu9Zw0D0LI3zHkmxOiq4O1uOCzLFq&returnLinkText=tGvtoo%2BQxasPY8ckzo4z2w%3D%3D
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - userRestricted:
+            - read:digital-contact-api

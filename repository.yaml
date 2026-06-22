@@ -1,1 +1,6 @@
 repoVisibility: public_0C3F0CE3E6E6448FAD341E7BFA50FCD333E06A20CFF05FCACE61154DDBBADF71
+digital-service: Digital Contact
+description: A Scala-based REST API service for managing digital contact preferences and secure messaging within the HMRC ecosystem.
+type: service
+service-type: Backend
+tags: ['api']
