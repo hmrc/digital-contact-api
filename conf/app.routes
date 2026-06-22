@@ -1,0 +1,6 @@
+# microservice specific routes
+
+GET        /messages/count                       uk.gov.hmrc.digitalcontactapi.controllers.SecureMessageController.messagesCount
+
+GET        /paperless/preferences                uk.gov.hmrc.digitalcontactapi.controllers.PreferencesController.preferences(queryParams: uk.gov.hmrc.digitalcontactapi.model.QueryParams)
+
