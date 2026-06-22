@@ -1,8 +1,3 @@
-## Notice
-
-This repository has been archived. The latest code has been migrated (in June 2026) to the public repository:
-https://github.com/hmrc/digital-contact-api
-
 # Digital Contact API
 
 A Scala-based REST API service for managing digital contact preferences and secure messaging within the HMRC ecosystem.
