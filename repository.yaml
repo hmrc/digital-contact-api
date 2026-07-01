@@ -4,3 +4,4 @@ description: A Scala-based REST API service for managing digital contact prefere
 type: service
 service-type: Backend
 tags: ['api']
+deprecated: true
