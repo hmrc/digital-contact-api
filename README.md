@@ -1,4 +1,4 @@
-# Digital Contact API
+# Digital Contact API [DEPRECATED]
 
 A Scala-based REST API service for managing digital contact preferences and secure messaging within the HMRC ecosystem.
 
